@@ -123,7 +123,7 @@ fun MainScreen(
                         onDelete = { viewModel.onEvent(HabitsEvent.DeleteHabit(habit)) },
                         onClickMealItem = {
                             navController.navigate(Screen.AddEditScreen.route +
-                                    "?habitId=${habit.id}"
+                                    "?habitId=${habit.idLocal}"
                             )}
                     )
                 }

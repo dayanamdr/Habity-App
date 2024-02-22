@@ -17,9 +17,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class AddEditViewModel {
-}
-
 @HiltViewModel
 class AddEditMealViewModel @Inject constructor(
     private val habitUseCases: UseCases,
@@ -57,11 +54,13 @@ class AddEditMealViewModel @Inject constructor(
         Log.i("AddEditHabitViewModel", "started")
         Log.i("AddEditHabitViewModel", "id: ${savedStateHandle.get<Int>("habitId")}")
 
-        savedStateHandle.get<Int>("mealId")?.let {habitId ->
+        savedStateHandle.get<Int>("habitId")?.let {habitId ->
             if (habitId != -1) {
                 Log.i("AddEditHabitViewModel", "habitId: $habitId")
                 viewModelScope.launch {
+                    print("habit id = ${habitId}")
                     habitUseCases.getHabitUseCase(habitId)?.also { habit ->
+                        print("habit = ${habit}\n")
                         currentHabitId = habit.id
                         currentHabitLocalId = habit.idLocal
                         _habitName.value = habitName.value.copy(
