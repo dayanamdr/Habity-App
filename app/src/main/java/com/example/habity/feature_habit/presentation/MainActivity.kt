@@ -24,14 +24,19 @@ import com.example.habity.feature_habit.presentation.util.bottom_navigation.Bott
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.example.habity.R
+import com.example.habity.feature_habit.data.network.NetworkStatusChecker
+import com.example.habity.feature_habit.presentation.home_section.components.NetworkStatusObserver
 import com.example.habity.feature_habit.presentation.util.navigation_graph.NavigationGraph
 import com.example.habity.ui.theme.HabityTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    private lateinit var networkStatusChecker: NetworkStatusChecker
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        networkStatusChecker = NetworkStatusChecker(applicationContext)
+
         setContent {
             HabityTheme {
                 // A surface container using the 'background' color from the theme
@@ -39,19 +44,23 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MainScreenView()
+                    MainScreenView(networkStatusChecker = networkStatusChecker)
 
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        networkStatusChecker.stop()
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MainScreenView() {
-
+fun MainScreenView(networkStatusChecker: NetworkStatusChecker) {
     val navController = rememberNavController()
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -59,7 +68,7 @@ fun MainScreenView() {
         bottomBar = { BottomNavigation(navController) },
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
     ) {
-        //NetworkObserver(snackbarHostState = snackbarHostState, networkStatusTracker = networkStatusTracker)
+        NetworkStatusObserver(snackbarHostState = snackbarHostState, networkStatusChecker = networkStatusChecker)
         SetTitle()
         NavigationGraph(navController = navController)
     }
