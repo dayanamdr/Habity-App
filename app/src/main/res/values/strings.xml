@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Habity</string>
+    <string name="add_habit_title">Add a new habit</string>
+    <string name="edit_habit_title">Edit habit</string>
+    <string name="confirm_dialog_request">Yes</string>
+    <string name="dimiss_dialog_request">No</string>
+</resources>
