@@ -1,19 +1,22 @@
 package com.example.habity.feature_habit.presentation.home_section
 
-import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.habity.feature_habit.data.network.NetworkStatusChecker
 import com.example.habity.feature_habit.domain.model.Habit
+import com.example.habity.feature_habit.domain.repository.LocalRepository
+import com.example.habity.feature_habit.domain.repository.RemoteRepository
 import com.example.habity.feature_habit.domain.use_case.UseCases
 import com.example.habity.feature_habit.domain.util.HabitOrder
 import com.example.habity.feature_habit.domain.util.OrderType
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -23,7 +26,9 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val habitUseCases: UseCases,
-    @ApplicationContext private val context: Context
+    private val localRepository: LocalRepository,
+    private val remoteRepository: RemoteRepository,
+    private val networkStatusChecker: NetworkStatusChecker
 ): ViewModel() {
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
@@ -31,14 +36,57 @@ class HomeViewModel @Inject constructor(
     private val _state = mutableStateOf(HabitsState())
     val state: State<HabitsState> = _state
 
+    private val _isNetworkAvailable = MutableStateFlow(false)
+    val isNetworkAvailable: MutableStateFlow<Boolean> = _isNetworkAvailable
+
     private var recentlyDeletedHabit: Habit? = null
     private var getHabitsJob: Job? = null
 
     init {
         viewModelScope.launch {
-            getHabits(HabitOrder.Date(OrderType.Descending))
-        }
+            //getHabits(HabitOrder.Date(OrderType.Descending))
+            localRepository.getAllHabits().collect { habits ->
+                val updatedEntitiesList = habits.filterNot {it.action == "delete"}
 
+                print("habits init = $habits\n")
+                _state.value = _state.value.copy(habits = updatedEntitiesList)
+            }
+        }
+        observeNetworkStatus()
+    }
+
+    private fun observeNetworkStatus() {
+        viewModelScope.launch {
+            networkStatusChecker.networkStatus.collect { status ->
+                _isNetworkAvailable.value = status == NetworkStatusChecker.NetworkStatus.Available
+                if (_isNetworkAvailable.value) {
+                    Log.d("HomeViewModel", "Network is available, syncing pending changes.")
+                    syncPendingChanges()
+                }
+            }
+        }
+    }
+
+    private suspend fun syncPendingChanges() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val pendingHabitEntities = localRepository.getHabitsWithPendingActions()
+            pendingHabitEntities.forEach { habitEntity ->
+                when (habitEntity.action) {
+                    "add" -> {
+                        val newEntity = remoteRepository.insertHabit(habitEntity)
+                        localRepository.updateHabit(habitEntity.copy(id = newEntity.id, action = null))
+                    }
+                    "delete" -> {
+                        remoteRepository.deleteHabit(habitEntity)
+                        localRepository.deleteHabit(habitEntity)
+                    }
+                    "update" -> {
+                        remoteRepository.updateHabit(habitEntity)
+                        localRepository.updateHabit(habitEntity.copy(action = null))
+                    }
+                }
+            }
+        }
     }
 
     fun onEvent(event: HabitsEvent) {
@@ -49,13 +97,18 @@ class HomeViewModel @Inject constructor(
                 ) {
                     return
                 }
-                getHabits(event.habitOrder)
+                //getHabits(event.habitOrder)
             }
             is HabitsEvent.DeleteHabit -> {
                 viewModelScope.launch {
                     try {
-                        habitUseCases.deleteHabitUseCase(event.habit)
-                        recentlyDeletedHabit = event.habit
+                        val result = habitUseCases.deleteHabitUseCase(event.habit)
+                        if (result == "success") {
+                            recentlyDeletedHabit = event.habit
+                            Log.d("delete HomeViewModel", "Deleted successfully.")
+                        } else {
+                            Log.d("delete HomeViewModel", "Deleted locally. No internet connection")
+                        }
                     } catch(e: Exception) {
                         Log.d("delete HomeViewModel", "Could not delete habit.")
                         _eventFlow.emit(

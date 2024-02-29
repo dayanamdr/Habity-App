@@ -39,6 +39,8 @@ fun HabitItem(
                 Text(text = habit.label, style = MaterialTheme.typography.headlineSmall)
             }
             Spacer(modifier = Modifier.padding(top = 6.dp))
+//            Text(text = "Id: ${habit.id}", style = MaterialTheme.typography.bodyLarge)
+//            Text(text = "localId: ${habit.idLocal}", style = MaterialTheme.typography.bodyLarge)
             Text(text = "Description: ${habit.description}", style = MaterialTheme.typography.bodyLarge)
             Text(text = "Date: ${habit.date} g", style = MaterialTheme.typography.bodyLarge)
         }

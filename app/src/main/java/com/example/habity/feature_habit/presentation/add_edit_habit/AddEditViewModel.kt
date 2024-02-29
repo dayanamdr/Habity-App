@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.habity.feature_habit.domain.model.Habit
 import com.example.habity.feature_habit.domain.use_case.UseCases
+import com.example.habity.feature_habit.presentation.home_section.HomeViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -153,11 +154,11 @@ class AddEditMealViewModel @Inject constructor(
                                 description = habitDescription.value.text,
                                 date = habitDate.value.text,
                                 id = currentHabitId,
-                                idLocal = 0,
+                                idLocal = currentHabitLocalId,
                                 completed = false,
                                 action = null
                             )
-                            habitUseCases.addEditUseCase(habitToUpdate)
+                            val result = habitUseCases.addEditUseCase(habitToUpdate)
                         }
                         _eventFlow.emit(UiEvent.SaveHabit)
                     } catch(e: Exception) {

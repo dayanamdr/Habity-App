@@ -73,7 +73,7 @@ fun DeleteHabitItem(
                 onDelete()
                 showDialog = false
                 show = false
-                Toast.makeText(context, "Meal removed", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Habit removed", Toast.LENGTH_SHORT).show()
             },
             onDismissRequest = {
                 showDialog = false
