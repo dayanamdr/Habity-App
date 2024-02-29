@@ -10,6 +10,11 @@ interface LocalRepository {
     suspend fun getHabitById(id: Int): Habit?
 
     suspend fun insertHabit(habit: Habit)
+    suspend fun updateHabit(habit: Habit)
 
     suspend fun deleteHabit(habit: Habit)
+
+    suspend fun getHabitsWithPendingActions(): List<Habit>
+
+    suspend fun clearAndCacheHabitEntities(habitsFlow: Flow<List<Habit>>)
 }

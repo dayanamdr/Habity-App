@@ -27,16 +27,6 @@ import com.example.habity.feature_habit.presentation.add_edit_habit.components.A
 import com.example.habity.feature_habit.presentation.add_edit_habit.components.TransparentHintTextField
 import kotlinx.coroutines.flow.collectLatest
 
-//@OptIn(ExperimentalMaterial3Api::class)
-//@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-//@Composable
-//fun AddEditScreen(
-//    modifier: Modifier = Modifier,
-//    navController: NavController
-//) {
-//    Text(text = "Add Edit Screen")
-//}
-
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun AddEditScreen(

@@ -1,7 +1,8 @@
-package com.example.habity.feature_habit.data.data_source
+package com.example.habity.feature_habit.data.data_source.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.example.habity.feature_habit.data.data_source.local.HabitDao
 import com.example.habity.feature_habit.domain.model.Habit
 
 @Database(
