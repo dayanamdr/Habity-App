@@ -106,7 +106,7 @@ fun MainScreen(
             }
             Spacer(modifier = Modifier.height(16.dp))
             LazyColumn(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxSize().padding(bottom = 45.dp),
                 state = rememberLazyListState()
             ) {
                 itemsIndexed(items = state.habits, key = {_, listItem -> listItem.hashCode()}) {
