@@ -50,4 +50,8 @@ class LocalRepositoryImpl(
         val entitiesFromLocalDb = dao.getAllHabits()
         Log.d("LocalRepositoryImpl", "habit entities from db: $entitiesFromLocalDb")
     }
+
+    override suspend fun findHabitByAttributes(name: String, label: String): Habit? {
+        return dao.findHabitByAttributes(name, label)
+    }
 }

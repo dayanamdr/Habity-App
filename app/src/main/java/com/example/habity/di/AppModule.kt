@@ -6,6 +6,7 @@ import androidx.room.Room
 import com.example.habity.feature_habit.data.data_source.local.HabitDatabase
 import com.example.habity.feature_habit.data.data_source.remote.ApiService
 import com.example.habity.feature_habit.data.network.NetworkStatusChecker
+import com.example.habity.feature_habit.data.network.WebSocketClient
 import com.example.habity.feature_habit.data.repository.LocalRepositoryImpl
 import com.example.habity.feature_habit.data.repository.RemoteRepositoryImpl
 import com.example.habity.feature_habit.domain.repository.LocalRepository
@@ -20,6 +21,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -34,6 +36,19 @@ object AppModule {
             .baseUrl("http://10.0.2.2:2419")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(): OkHttpClient {
+        return OkHttpClient.Builder()
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideWebSocketClient(okHttpClient: OkHttpClient): WebSocketClient {
+        return WebSocketClient(okHttpClient)
     }
 
     @Provides

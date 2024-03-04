@@ -20,6 +20,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Sort
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -28,8 +29,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,6 +54,37 @@ fun MainScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val state = viewModel.state.value
 
+    val showNewHabitEntityDialog by viewModel.showNewHabitEntityDialog
+    val newHabitEntity by viewModel.newHabitEntity
+
+    if (showNewHabitEntityDialog && newHabitEntity != null) {
+        AlertDialog(
+            onDismissRequest = {
+                viewModel.dismissNewHabitEntityDialog()
+            },
+            title = {
+                Text("New Habit entity has been created")
+            },
+            text = {
+                Column {
+                    Text("Name: ${newHabitEntity!!.name}")
+                    Text("Description: ${newHabitEntity!!.description}")
+                    Text("Label: ${newHabitEntity!!.label}")
+                    Text("Date: ${newHabitEntity!!.date}")
+                }
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        viewModel.dismissNewHabitEntityDialog()
+                    }
+                ) {
+                    Text("OK")
+                }
+            }
+        )
+    }
+    
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
             when(event) {
