@@ -22,13 +22,14 @@ class GetHabitsUseCase(
     private val networkStatusChecker: NetworkStatusChecker
 ) {
     operator fun invoke(
-        habitOrder: HabitOrder = HabitOrder.Date(OrderType.Descending)
+        habitOrder: HabitOrder = HabitOrder.Date(OrderType.Descending),
+        forceUpdateHabitsState: Boolean = false
     ): Flow<List<Habit>> = flow {
         val isNetworkAvailable = networkStatusChecker.isCurrentlyAvailable()
         val localEntities = localRepository.getAllHabits().first()
         Log.d("GetHabitsUseCase", "Local entities: $localEntities")
 
-        if (localEntities.isEmpty()) {
+        if (localEntities.isEmpty() || forceUpdateHabitsState) {
             if (isNetworkAvailable) {
                 try {
                     val remoteEntities = remoteRepository.getAll()
