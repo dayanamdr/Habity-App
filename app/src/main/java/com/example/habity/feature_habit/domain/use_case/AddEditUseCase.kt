@@ -37,12 +37,12 @@ class AddEditUseCase(
                 if (networkStatusChecker.isCurrentlyAvailable()) {
                     val newHabitEntity = remoteRepository.insertHabit(habit)
 
-                    Log.d("AddHabitUseCase", "newItem: $newHabitEntity")
-                    Log.d("AddHabitUseCase", "newItemID: ${newHabitEntity.id}")
+                    Log.d("AddHabitUseCase", "newHabitEntity: $newHabitEntity")
+                    Log.d("AddHabitUseCase", "newHabitEntityID: ${newHabitEntity.id}")
 
                     localRepository.insertHabit(habit.copy(id= newHabitEntity.id, action = null))
                 } else {
-                    Log.d("AddHabitUseCase", "newItem added locally: $habit")
+                    Log.d("AddHabitUseCase", "newHabitEntity added locally: $habit")
                     localRepository.insertHabit(habit.copy(id= -1, action = "add"))
                 }
             }
