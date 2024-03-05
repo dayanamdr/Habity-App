@@ -13,6 +13,8 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,8 +24,11 @@ import com.example.habity.feature_habit.domain.model.Habit
 @Composable
 fun HabitItem(
     habit: Habit,
+    onCheckBoxChange: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val checked = remember { mutableStateOf(habit.completed) }
+
     ElevatedCard(
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
         modifier = modifier
@@ -39,7 +44,13 @@ fun HabitItem(
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Text(text = habit.name, style = MaterialTheme.typography.headlineMedium)
-                Checkbox(checked = false, onCheckedChange = {})
+                Checkbox(
+                    checked = checked.value,
+                    onCheckedChange = {
+                            isChecked -> checked.value = isChecked
+                            onCheckBoxChange()
+                    }
+                )
             }
             Divider(thickness = 1.dp, color = Color.LightGray)
             Text(

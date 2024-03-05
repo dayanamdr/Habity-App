@@ -4,6 +4,7 @@ data class UseCases(
     val getHabitsUseCase: GetHabitsUseCase,
     val getHabitUseCase: GetHabitUseCase,
     val addEditUseCase: AddEditUseCase,
-    val deleteHabitUseCase: DeleteHabitUseCase
+    val deleteHabitUseCase: DeleteHabitUseCase,
+    val toggleCompleteHabitUseCase: ToggleCompleteHabitUseCase
 ) {
 }
