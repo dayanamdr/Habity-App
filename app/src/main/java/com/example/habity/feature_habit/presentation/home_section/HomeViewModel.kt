@@ -16,6 +16,7 @@ import com.example.habity.feature_habit.domain.util.OrderType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -23,6 +24,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
@@ -179,12 +181,21 @@ class HomeViewModel @Inject constructor(
                     )
                     _newHabitEntity.value = newHabitEntity
 
+//                    runBlocking {
+//                        delay(2000)
+//                    }
+
                     Log.i("HomeViewModel", "newHabitEntity: $newHabitEntity")
 
+//                    val foundHabitEntity = localRepository.findHabitByAttributes(
+//                        newHabitEntity.id,
+//                        newHabitEntity.name,
+//                        newHabitEntity.label
+//                    )
                     val foundHabitEntity = localRepository.findHabitByAttributes(
-                        newHabitEntity.name,
-                        newHabitEntity.label
+                        newHabitEntity.id
                     )
+                    //val foundHabitEntity = localRepository.getHabitById(newHabitEntity.id!!)
 
                     Log.d("HomeViewModel", "habit entity found: $foundHabitEntity")
                     if(foundHabitEntity == null) {
@@ -202,9 +213,9 @@ class HomeViewModel @Inject constructor(
     private suspend fun addHabitEntityAndUpdateState(habitEntity: Habit) {
         habitUseCases.addEditUseCase(habitEntity)
         // Update state
-        val updatedHabitsList = habitUseCases.getHabitsUseCase(forceUpdateHabitsState = true).first()
+        val updatedHabitsList = habitUseCases.getHabitsUseCase().first()
         Log.d("HomeViewModel", "updatedEntities: $updatedHabitsList")
-        _state.value = _state.value.copy(habits = updatedHabitsList)
+        //_state.value = _state.value.copy(habits = updatedHabitsList)
     }
 
     private fun displayNewHabitEntityNotification() {

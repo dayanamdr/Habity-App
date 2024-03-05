@@ -53,6 +53,7 @@ fun AddEditScreen(
     val nameState = viewModel.habitName.value
     val labelState = viewModel.habitLabel.value
     val descriptionState = viewModel.habitDescription.value
+    //val dateState = viewModel.habitDate.value
     val dateState = if (viewModel.habitDate.value.text == "") {
         viewModel.habitDate.value.copy(
             text = datePickerDate.value.format(DateTimeFormatter.ISO_DATE),
@@ -171,7 +172,10 @@ fun AddEditScreen(
                 IconButton(
                     onClick = { isDatePickerOpen.value = true } // show the dialog
                 ) {
-                    Icon(imageVector = Icons.Default.CalendarMonth, contentDescription = "Calendar")
+                    Icon(
+                        imageVector = Icons.Default.CalendarMonth,
+                        contentDescription = "Calendar"
+                    )
                 }
             }
             Spacer(Modifier.height(30.dp))
