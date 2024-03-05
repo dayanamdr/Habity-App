@@ -7,12 +7,15 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.habity.feature_habit.domain.model.Habit
 
@@ -36,13 +39,31 @@ fun HabitItem(
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Text(text = habit.name, style = MaterialTheme.typography.headlineMedium)
-                Text(text = habit.label, style = MaterialTheme.typography.headlineSmall)
+                Checkbox(checked = false, onCheckedChange = {})
             }
-            Spacer(modifier = Modifier.padding(top = 6.dp))
+            Divider(thickness = 1.dp, color = Color.LightGray)
+            Text(
+                text = habit.label,
+                style = MaterialTheme.typography.headlineSmall,
+                color = Color.DarkGray
+            )
+            Spacer(modifier = Modifier.padding(top = 8.dp))
 //            Text(text = "Id: ${habit.id}", style = MaterialTheme.typography.bodyLarge)
 //            Text(text = "localId: ${habit.idLocal}", style = MaterialTheme.typography.bodyLarge)
-            Text(text = "Description: ${habit.description}", style = MaterialTheme.typography.bodyLarge)
-            Text(text = "Date: ${habit.date} g", style = MaterialTheme.typography.bodyLarge)
+            Text(text = habit.description, style = MaterialTheme.typography.bodyLarge)
+            Spacer(modifier = Modifier.padding(top = 10.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.End,
+            ) {
+                Text(
+                    text = habit.date,
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = Color.DarkGray
+                )
+            }
+
         }
     }
 }
