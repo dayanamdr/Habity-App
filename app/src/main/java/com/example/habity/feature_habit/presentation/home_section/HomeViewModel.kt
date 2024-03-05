@@ -181,21 +181,12 @@ class HomeViewModel @Inject constructor(
                     )
                     _newHabitEntity.value = newHabitEntity
 
-//                    runBlocking {
-//                        delay(2000)
-//                    }
-
                     Log.i("HomeViewModel", "newHabitEntity: $newHabitEntity")
 
-//                    val foundHabitEntity = localRepository.findHabitByAttributes(
-//                        newHabitEntity.id,
-//                        newHabitEntity.name,
-//                        newHabitEntity.label
-//                    )
                     val foundHabitEntity = localRepository.findHabitByAttributes(
-                        newHabitEntity.id
+                        newHabitEntity.name,
+                        newHabitEntity.label
                     )
-                    //val foundHabitEntity = localRepository.getHabitById(newHabitEntity.id!!)
 
                     Log.d("HomeViewModel", "habit entity found: $foundHabitEntity")
                     if(foundHabitEntity == null) {
