@@ -47,12 +47,11 @@ fun HabitItem(
                 style = MaterialTheme.typography.headlineSmall,
                 color = Color.DarkGray
             )
-            Spacer(modifier = Modifier.padding(top = 6.dp))
+            Spacer(modifier = Modifier.padding(top = 8.dp))
 //            Text(text = "Id: ${habit.id}", style = MaterialTheme.typography.bodyLarge)
 //            Text(text = "localId: ${habit.idLocal}", style = MaterialTheme.typography.bodyLarge)
             Text(text = habit.description, style = MaterialTheme.typography.bodyLarge)
-            Spacer(modifier = Modifier.padding(top = 6.dp))
-            Spacer(modifier = Modifier.padding(top = 6.dp))
+            Spacer(modifier = Modifier.padding(top = 10.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
