@@ -15,6 +15,7 @@ import com.example.habity.feature_habit.domain.use_case.AddEditUseCase
 import com.example.habity.feature_habit.domain.use_case.DeleteHabitUseCase
 import com.example.habity.feature_habit.domain.use_case.GetHabitUseCase
 import com.example.habity.feature_habit.domain.use_case.GetHabitsUseCase
+import com.example.habity.feature_habit.domain.use_case.ToggleCompleteHabitUseCase
 import com.example.habity.feature_habit.domain.use_case.UseCases
 import dagger.Module
 import dagger.Provides
@@ -109,6 +110,11 @@ object AppModule {
                 networkStatusChecker
             ),
             deleteHabitUseCase = DeleteHabitUseCase(
+                localRepository,
+                remoteRepository,
+                networkStatusChecker
+            ),
+            toggleCompleteHabitUseCase = ToggleCompleteHabitUseCase(
                 localRepository,
                 remoteRepository,
                 networkStatusChecker

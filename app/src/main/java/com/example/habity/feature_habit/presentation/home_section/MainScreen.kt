@@ -148,6 +148,7 @@ fun MainScreen(
                     DeleteHabitItem(
                         habit = habit,
                         onDelete = { viewModel.onEvent(HabitsEvent.DeleteHabit(habit)) },
+                        onCheckBoxChange = { viewModel.onEvent(HabitsEvent.ToggleHabitCompleteStatus(habit))},
                         onClickMealItem = {
                             navController.navigate(Screen.AddEditScreen.route +
                                     "?habitId=${habit.idLocal}"

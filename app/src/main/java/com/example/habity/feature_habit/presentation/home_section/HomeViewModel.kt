@@ -149,6 +149,25 @@ class HomeViewModel @Inject constructor(
                     isOrderSectionVisible = !state.value.isOrderSectionVisible
                 )
             }
+            is HabitsEvent.ToggleHabitCompleteStatus -> {
+                viewModelScope.launch {
+                    try {
+                        val toggledCompleteStatus = !event.habit.completed
+                        habitUseCases.toggleCompleteHabitUseCase(
+                            event.habit.copy(completed = toggledCompleteStatus))
+                        Log.d("toggleCompleteStatus HomeViewModel",
+                            "Habit complete status updated successfully.")
+                    } catch(e: Exception) {
+                        Log.d("toggleCompleteStatus HomeViewModel",
+                            "Could not update complete status habit.")
+                        _eventFlow.emit(
+                            UiEvent.ShowSnackbar(
+                                message = e.message ?: "Could not update habit complete status."
+                            )
+                        )
+                    }
+                }
+            }
         }
     }
 

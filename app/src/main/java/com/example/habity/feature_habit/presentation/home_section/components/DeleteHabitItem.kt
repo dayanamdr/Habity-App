@@ -30,6 +30,7 @@ fun DeleteHabitItem(
     modifier: Modifier = Modifier,
     habit: Habit,
     onDelete: () -> Unit,
+    onCheckBoxChange: () -> Unit,
     onClickMealItem: () -> Unit,
 ) {
     val dismissState = rememberDismissState(
@@ -49,6 +50,7 @@ fun DeleteHabitItem(
             dismissContent = {
                 HabitItem(
                     habit = habit,
+                    onCheckBoxChange = onCheckBoxChange,
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable {
