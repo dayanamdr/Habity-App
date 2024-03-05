@@ -204,9 +204,9 @@ class HomeViewModel @Inject constructor(
     private suspend fun addHabitEntityAndUpdateState(habitEntity: Habit) {
         habitUseCases.addEditUseCase(habitEntity)
         // Update state
-        val updatedHabitsList = habitUseCases.getHabitsUseCase().first()
+        val updatedHabitsList = habitUseCases.getHabitsUseCase(forceUpdateHabitsState = true).first()
         Log.d("HomeViewModel", "updatedEntities: $updatedHabitsList")
-        //_state.value = _state.value.copy(habits = updatedHabitsList)
+        _state.value = _state.value.copy(habits = updatedHabitsList)
     }
 
     private fun displayNewHabitEntityNotification() {
