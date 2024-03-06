@@ -104,6 +104,9 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2")
+
+    // Charts
+    implementation("co.yml:ycharts:2.1.0")
 }
 
 // Allow references to generated code
