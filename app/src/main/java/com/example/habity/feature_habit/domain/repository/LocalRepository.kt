@@ -17,5 +17,8 @@ interface LocalRepository {
     suspend fun getHabitsWithPendingActions(): List<Habit>
 
     suspend fun clearAndCacheHabitEntities(habitsFlow: Flow<List<Habit>>)
+
     suspend fun findHabitByAttributes(name: String, label: String): Habit?
+
+    suspend fun getHabitsByDate(date: String): Flow<List<Habit>>
 }

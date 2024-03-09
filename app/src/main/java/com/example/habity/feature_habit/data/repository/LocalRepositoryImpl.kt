@@ -54,4 +54,8 @@ class LocalRepositoryImpl(
     override suspend fun findHabitByAttributes(name: String, label: String): Habit? {
         return dao.findHabitByAttributes(name, label)
     }
+
+    override suspend fun getHabitsByDate(date: String): Flow<List<Habit>> {
+        return dao.getHabitsByDate(date)
+    }
 }

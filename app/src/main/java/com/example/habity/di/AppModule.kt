@@ -13,6 +13,7 @@ import com.example.habity.feature_habit.domain.repository.LocalRepository
 import com.example.habity.feature_habit.domain.repository.RemoteRepository
 import com.example.habity.feature_habit.domain.use_case.AddEditUseCase
 import com.example.habity.feature_habit.domain.use_case.DeleteHabitUseCase
+import com.example.habity.feature_habit.domain.use_case.GetHabitsByDateUseCase
 import com.example.habity.feature_habit.domain.use_case.GetHabitUseCase
 import com.example.habity.feature_habit.domain.use_case.GetHabitsUseCase
 import com.example.habity.feature_habit.domain.use_case.ToggleCompleteHabitUseCase
@@ -115,6 +116,11 @@ object AppModule {
                 networkStatusChecker
             ),
             toggleCompleteHabitUseCase = ToggleCompleteHabitUseCase(
+                localRepository,
+                remoteRepository,
+                networkStatusChecker
+            ),
+            getHabitsByDateUseCase = GetHabitsByDateUseCase(
                 localRepository,
                 remoteRepository,
                 networkStatusChecker

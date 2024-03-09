@@ -35,4 +35,7 @@ interface HabitDao {
 
     @Query("SELECT * FROM habits WHERE name = :name AND label = :label LIMIT 1")
     suspend fun findHabitByAttributes(name: String, label: String): Habit?
+
+    @Query("SELECT * FROM habits WHERE date = :date")
+    fun getHabitsByDate(date: String): Flow<List<Habit>>
 }
