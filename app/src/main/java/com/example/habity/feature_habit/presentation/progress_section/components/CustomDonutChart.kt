@@ -2,9 +2,8 @@ package com.example.habity.feature_habit.presentation.progress_section.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
@@ -51,41 +50,39 @@ fun CustomDonutChart(habits: List<Habit>) {
         plotType = PlotType.Donut
     )
 
+    val countLegendItems = donutChartData.slices.size
+    val legendColumns = 3
+    val extraRow = if (countLegendItems % legendColumns != 0) 1 else 0
+    val legendRows: Int = (countLegendItems / legendColumns) + extraRow
+
     val donutChartConfig = PieChartConfig(
         strokeWidth = 120f,
         isAnimationEnable = true,
-        animationDuration = 600,
+        animationDuration = 400,
         showSliceLabels = true,
         chartPadding = 20,
         isClickOnSliceEnabled = false,
         labelVisible = true
     )
 
-    Column {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            DonutPieChart(
-                modifier = Modifier
-                    .width(250.dp)
-                    .height(250.dp),
-                donutChartData,
-                donutChartConfig
-            )
-        }
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Legends(legendsConfig = DataUtils.getLegendsConfigFromPieChartData(
+    Column(
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.padding(horizontal = 16.dp)
+    ) {
+        DonutPieChart(
+            modifier = Modifier
+                .width(250.dp)
+                .height(250.dp),
+            donutChartData,
+            donutChartConfig
+        )
+        Legends(
+            modifier = Modifier.height(50.dp * legendRows),
+            legendsConfig = DataUtils.getLegendsConfigFromPieChartData(
                 pieChartData = donutChartData,
-                gridSize = 3)
+                gridSize = legendColumns
             )
-        }
+        )
     }
-
-
 }
