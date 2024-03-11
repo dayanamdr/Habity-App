@@ -50,6 +50,7 @@ class AddEditMealViewModel @Inject constructor(
 
     var currentHabitId: Int? = null
     var currentHabitLocalId: Int? = null
+    var completedHabit: Boolean = false
 
     init {
         Log.i("AddEditHabitViewModel", "started")
@@ -80,6 +81,7 @@ class AddEditMealViewModel @Inject constructor(
                             text = habit.date,
                             isHintVisible = false
                         )
+                        completedHabit = habit.completed
                     }
                 }
             }
@@ -143,7 +145,7 @@ class AddEditMealViewModel @Inject constructor(
                                 date = habitDate.value.text,
                                 id = currentHabitId,
                                 idLocal = currentHabitLocalId,
-                                completed = false,
+                                completed = completedHabit,
                                 action = null
                             )
                             habitUseCases.addEditUseCase(habitToAdd)
@@ -155,7 +157,7 @@ class AddEditMealViewModel @Inject constructor(
                                 date = habitDate.value.text,
                                 id = currentHabitId,
                                 idLocal = currentHabitLocalId,
-                                completed = false,
+                                completed = completedHabit,
                                 action = null
                             )
                             val result = habitUseCases.addEditUseCase(habitToUpdate)
