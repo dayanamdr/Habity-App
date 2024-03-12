@@ -21,4 +21,6 @@ interface LocalRepository {
     suspend fun findHabitByAttributes(name: String, label: String): Habit?
 
     suspend fun getHabitsByDate(date: String): Flow<List<Habit>>
+    fun getCompletedHabitsOfWeek(startOfWeek: String, endOfWeek: String): Flow<Map<String, Int>>
+    fun getCompletedHabitsCountOfWeek(startOfWeek: String, endOfWeek: String): Flow<List<Int>>
 }

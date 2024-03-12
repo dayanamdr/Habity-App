@@ -16,6 +16,7 @@ import com.example.habity.feature_habit.domain.use_case.DeleteHabitUseCase
 import com.example.habity.feature_habit.domain.use_case.GetHabitsByDateUseCase
 import com.example.habity.feature_habit.domain.use_case.GetHabitUseCase
 import com.example.habity.feature_habit.domain.use_case.GetHabitsUseCase
+import com.example.habity.feature_habit.domain.use_case.GetWeeklyCompletedHabitsUseCase
 import com.example.habity.feature_habit.domain.use_case.ToggleCompleteHabitUseCase
 import com.example.habity.feature_habit.domain.use_case.UseCases
 import dagger.Module
@@ -121,6 +122,11 @@ object AppModule {
                 networkStatusChecker
             ),
             getHabitsByDateUseCase = GetHabitsByDateUseCase(
+                localRepository,
+                remoteRepository,
+                networkStatusChecker
+            ),
+            getWeeklyHabitsUseCase = GetWeeklyCompletedHabitsUseCase(
                 localRepository,
                 remoteRepository,
                 networkStatusChecker
