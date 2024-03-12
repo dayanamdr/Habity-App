@@ -6,6 +6,7 @@ data class UseCases(
     val addEditUseCase: AddEditUseCase,
     val deleteHabitUseCase: DeleteHabitUseCase,
     val toggleCompleteHabitUseCase: ToggleCompleteHabitUseCase,
-    val getHabitsByDateUseCase: GetHabitsByDateUseCase
+    val getHabitsByDateUseCase: GetHabitsByDateUseCase,
+    val getWeeklyHabitsUseCase: GetWeeklyCompletedHabitsUseCase
 ) {
 }

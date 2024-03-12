@@ -101,7 +101,7 @@ fun ProgressScreen(
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        CustomBarChart()
+                        CustomBarChart(state.weeklyCompletedHabits)
                     }
                 }
             }

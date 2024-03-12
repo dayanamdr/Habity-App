@@ -38,4 +38,8 @@ interface HabitDao {
 
     @Query("SELECT * FROM habits WHERE date = :date")
     fun getHabitsByDate(date: String): Flow<List<Habit>>
+
+    @Query("SELECT * FROM habits WHERE completed = 1 AND date BETWEEN :startOfWeek AND :endOfWeek")
+    fun getCompletedHabitsOfWeek(startOfWeek: String, endOfWeek: String): Flow<List<Habit>>
+
 }
