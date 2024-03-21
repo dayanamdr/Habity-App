@@ -3,7 +3,7 @@ Introducing **Habity**, the ultimate tool for fostering healthy habits and reach
 
 Seamlessly track, update, and visualize your progress with stunning daily and weekly graphs, empowering you to stay motivated and focused. With real-time updates keeping you connected every step of the way, **Habity** transforms your journey towards self-improvement into an inspiring visual narrative.
 
-## Features
+## Main Features
 * Can seamlessly add, update, or remove habits, putting you in complete control of your journey towards self-improvement
 * Mark you habits as completed effortlessly
 * Daily and weekly graphs that vividly illustrate your growth over time
